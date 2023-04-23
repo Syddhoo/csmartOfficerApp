@@ -1,0 +1,55 @@
+﻿@model CSMARTofficerApp.Models.Officer
+@{
+    ViewData["Title"] = "Edit Officer";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center text-primary">Edit Officer</h1>
+            </div>
+            <div class="card-body">
+                <form method="post" action="EditOfficer">
+                    @*<div class="form-group">
+                        <label asp-for="OfficerKey"></label>
+                        
+                        <input type="text" asp-for="OfficerKey" class="form-control" placeholder="Enter the officer key"/>
+                        </div>*@
+                        <input type="hidden" asp-for="OfficerKey" />
+                    <div class="form-group">
+                            <label asp-for="FirstName"></label>
+
+                            <input type="text" asp-for="FirstName" class="form-control" placeholder="Enter the first name" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName"></label>
+                        
+                        <input type="text" asp-for="LastName" class="form-control" placeholder="Enter the last name" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber"></label>
+                        
+                        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Enter the phone number" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BadgeNumber"></label>
+                        
+                        <input type="text" asp-for="BadgeNumber" class="form-control" placeholder="Enter the badge number" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AgencyCode"></label>
+                        
+                        <input type="text" asp-for="AgencyCode" class="form-control" placeholder="Enter the agency code" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-sm btn-outline-success float-right"/>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

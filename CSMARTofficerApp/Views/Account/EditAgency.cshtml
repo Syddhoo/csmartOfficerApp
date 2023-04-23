@@ -1,0 +1,46 @@
+﻿@model CSMARTofficerApp.Models.OfficerAgency
+@{
+    ViewData["Title"] = "Edit Agency";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="text-center text-primary">Edit Agency</h1>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="EditAgency">
+                        @*<div class="form-group">
+                            <label asp-for="AgencyCode"></label>
+                            
+                            <input type="text" asp-for="AgencyCode" class="form-control" placeholder="Enter the agency code" />
+                        </div>*@
+                        <input type="hidden" asp-for="AgencyCode" />
+                        <div class="form-group">
+                            <label asp-for="AgencyName"></label>
+
+                            <input type="text" asp-for="AgencyName" class="form-control" placeholder="Enter the agency name" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AgencyState"></label>
+
+                            <input type="text" asp-for="AgencyState" class="form-control" placeholder="Enter the agency state" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Pincode"></label>
+
+                            <input type="text" asp-for="Pincode" class="form-control" placeholder="Enter the pincode" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="submit" value="Submit" class="btn btn-sm btn-outline-success float-right" />
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

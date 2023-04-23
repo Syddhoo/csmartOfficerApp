@@ -1,0 +1,56 @@
+﻿@model List<CSMARTofficerApp.Models.OfficerAgency>
+@{
+    ViewBag.Title = "OfficerAgencyData";
+}
+<a class="btn btn-sm btn-success m-2 float-right" asp-controller="Account" asp-action="AddAgency">Add</a>
+
+<p>
+    @using(Html.BeginForm("OfficerAgencyData", "Account", FormMethod.Get)){
+        <span style="padding-Right:20px" class="font-weight-bold">Search by :</span> 
+    @Html.RadioButton("searchBy", "AgencyCode", true) <span style="padding-Right:20px">Agency Code</span>
+    @Html.RadioButton("searchBy", "AgencyName") <span style="padding-Right:20px">Agency Name</span>
+    @Html.RadioButton("searchBy", "AgencyState") <span style="padding-Right:20px">Agency State</span>
+    <br/>
+    
+    <div class="mt-3">
+    @Html.TextBox("search")<input type="submit" value="Search"/>
+        </div>
+    }
+</p>
+
+<table class="table table-hover">
+    <tr class="text-center">
+        <th>AgencyCode</th>
+        <th>AgencyName</th>
+        <th>AgencyState</th>
+        <th>Pincode</th>
+        <th>Action</th>
+    </tr>
+
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="5"><span style="color:red">No rows match search criteria</span></td>
+        </tr>
+    }
+    else{
+    foreach (var item in Model)
+    {
+        <tr class="text-center">
+            
+            <td>@item.AgencyCode</td>
+            <td>@item.AgencyName</td>
+            <td>@item.AgencyState</td>
+            <td>@item.Pincode</td>
+            <td>
+                <a class="btn btn-sm btn-warning" asp-controller="Account" asp-action="EditAgency"
+               asp-route-id="@item.AgencyCode">Edit</a>
+                <a class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete agengy? : @item.AgencyCode')"
+                asp-controller="Account" asp-action="DeleteAgency"
+               asp-route-id="@item.AgencyCode">Delete</a>
+            </td>
+
+        </tr>
+        }
+    }
+</table>

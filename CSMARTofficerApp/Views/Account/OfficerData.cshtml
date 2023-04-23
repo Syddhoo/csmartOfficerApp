@@ -1,0 +1,59 @@
+﻿@model List<CSMARTofficerApp.Models.Officer>
+@{
+    ViewBag.Title = "OfficerData";
+}
+@**@
+<a class="btn btn-sm btn-success m-2 float-right" asp-controller="Account" asp-action="AddOfficer">Add</a>
+<p>
+    @using(Html.BeginForm("OfficerData", "Account", FormMethod.Get)){
+        <span style="padding-Right:20px" class="font-weight-bold">Search by :</span> 
+    @Html.RadioButton("searchBy", "OfficerKey", true) <span style="padding-Right:20px">Officer Key</span>
+    @Html.RadioButton("searchBy", "FirstName") <span style="padding-Right:20px">First Name</span>
+    @Html.RadioButton("searchBy", "LastName") <span style="padding-Right:20px">Last Name</span>
+    @Html.RadioButton("searchBy", "AgencyCode") <span style="padding-Right:20px">Agency Code</span><br/>
+    
+    <div class="mt-3">
+    @Html.TextBox("search")<input type="submit" value="Search"/>
+        </div>
+    }
+</p>
+
+<table class="table table-hover">
+    <tr class="text-center">
+        <th>OfficerKey</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>PhoneNumber</th>
+        <th>BadgeNumber</th>
+        <th>AgencyCode</th>
+        <th>Action</th>
+    </tr>
+
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="7"><span style="color:red">No rows match search criteria</span></td>
+        </tr>
+    }
+    else{
+
+    foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>@item.OfficerKey</td>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.BadgeNumber</td>
+            <td>@item.AgencyCode</td>
+            <td>
+                <a class="btn btn-sm btn-warning" asp-controller="Account" asp-action="EditOfficer"
+               asp-route-id="@item.OfficerKey">Edit</a>
+                <a class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete officer? : @item.OfficerKey')" 
+                asp-controller="Account" asp-action="DeleteOfficer"
+                asp-route-id="@item.OfficerKey">Delete</a>
+            </td>
+        </tr>
+        }
+    }
+</table>
