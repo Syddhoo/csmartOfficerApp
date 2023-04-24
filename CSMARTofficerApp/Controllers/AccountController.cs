@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -171,24 +172,33 @@ namespace CSMARTofficerApp.Controllers
 
         [HttpPost]
         public IActionResult EditOfficer(Officer model) {
-            if (ModelState.IsValid)
+            try
             {
-                var off = new Officer()
+                //throw new Exception();
+                if (ModelState.IsValid)
                 {
-                    OfficerKey = model.OfficerKey,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    PhoneNumber = model.PhoneNumber,
-                    BadgeNumber = model.BadgeNumber,
-                    AgencyCode = model.AgencyCode
-                };
+                    var off = new Officer()
+                    {
+                        OfficerKey = model.OfficerKey,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        PhoneNumber = model.PhoneNumber,
+                        BadgeNumber = model.BadgeNumber,
+                        AgencyCode = model.AgencyCode
+                    };
 
-                db.Officers.Update(off);
-                db.SaveChanges();
-                return RedirectToAction("OfficerData");
+                    db.Officers.Update(off);
+                    db.SaveChanges();
+                    return RedirectToAction("OfficerData");
+                }
+                else
+                {
+                    return View(model);
+                }
             }
-            else { 
-                return View(model); 
+            catch
+            {
+                return RedirectToAction("ErrorPage");
             }
         }
 
@@ -209,22 +219,29 @@ namespace CSMARTofficerApp.Controllers
         [HttpPost]
         public IActionResult EditAgency(OfficerAgency model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var off = new OfficerAgency()
+                if (ModelState.IsValid)
                 {
-                    AgencyCode = model.AgencyCode,
-                    AgencyName = model.AgencyName,
-                    AgencyState = model.AgencyState,
-                    Pincode = model.Pincode
-                };
-                db.OfficerAgencies.Update(off);
-                db.SaveChanges();
-                return RedirectToAction("OfficerAgencyData");
+                    var off = new OfficerAgency()
+                    {
+                        AgencyCode = model.AgencyCode,
+                        AgencyName = model.AgencyName,
+                        AgencyState = model.AgencyState,
+                        Pincode = model.Pincode
+                    };
+                    db.OfficerAgencies.Update(off);
+                    db.SaveChanges();
+                    return RedirectToAction("OfficerAgencyData");
+                }
+                else
+                {
+                    return View(model);
+                }
             }
-            else
+            catch
             {
-                return View(model);
+                return RedirectToAction("ErrorPage");
             }
         }
 
@@ -236,30 +253,39 @@ namespace CSMARTofficerApp.Controllers
         [HttpPost]
         public IActionResult AddOfficer(Officer model)
         {
-            var existingKeys = db.Officers.Select(u => u.OfficerKey).ToList();
-            if (ModelState.IsValid && !(existingKeys.Contains(model.OfficerKey)))
+            try
             {
-                var off = new Officer() {
-                    OfficerKey = model.OfficerKey,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    PhoneNumber = model.PhoneNumber,
-                    BadgeNumber = model.BadgeNumber,
-                    AgencyCode = model.AgencyCode
-                };
-                db.Officers.Add(off);
-                db.SaveChanges();
-                return RedirectToAction("OfficerData");
+                var existingKeys = db.Officers.Select(u => u.OfficerKey).ToList();
+                if (ModelState.IsValid && !(existingKeys.Contains(model.OfficerKey)))
+                {
+                    var off = new Officer()
+                    {
+                        OfficerKey = model.OfficerKey,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        PhoneNumber = model.PhoneNumber,
+                        BadgeNumber = model.BadgeNumber,
+                        AgencyCode = model.AgencyCode
+                    };
+                    db.Officers.Add(off);
+                    db.SaveChanges();
+                    return RedirectToAction("OfficerData");
+                }
+                else if (existingKeys.Contains(model.OfficerKey))
+                {
+                    ModelState.AddModelError("OfficerKey", "This officer key already exists");
+                    return View(model);
+                }
+                else
+                {
+                    //ViewBag.Message = "Officer Key can't be empty";
+                    //TempData["error1"] = "Officer Key cannot be empty";
+                    return View(model);
+                }
             }
-            else if(existingKeys.Contains(model.OfficerKey)){
-                ModelState.AddModelError("OfficerKey", "This officer key already exists");
-                return View(model);
-            }
-            else
+            catch
             {
-                //ViewBag.Message = "Officer Key can't be empty";
-                //TempData["error1"] = "Officer Key cannot be empty";
-                return View(model);
+                return RedirectToAction("ErrorPage");
             }
         }
 
@@ -272,30 +298,38 @@ namespace CSMARTofficerApp.Controllers
         [HttpPost]
         public IActionResult AddAgency(OfficerAgency model)
         {
-            var existingKeys = db.OfficerAgencies.Select(u => u.AgencyCode).ToList();
-            if (ModelState.IsValid && !(existingKeys.Contains(model.AgencyCode)))
+            try
             {
-                var ag = new OfficerAgency()
+                //throw new Exception();
+                var existingKeys = db.OfficerAgencies.Select(u => u.AgencyCode).ToList();
+                if (ModelState.IsValid && !(existingKeys.Contains(model.AgencyCode)))
                 {
-                    AgencyCode = model.AgencyCode,
-                    AgencyName = model.AgencyName,
-                    AgencyState = model.AgencyState,
-                    Pincode = model.Pincode
-                };
-                db.OfficerAgencies.Add(ag);
-                db.SaveChanges();
-                return RedirectToAction("OfficerAgencyData");
+                    var ag = new OfficerAgency()
+                    {
+                        AgencyCode = model.AgencyCode,
+                        AgencyName = model.AgencyName,
+                        AgencyState = model.AgencyState,
+                        Pincode = model.Pincode
+                    };
+                    db.OfficerAgencies.Add(ag);
+                    db.SaveChanges();
+                    return RedirectToAction("OfficerAgencyData");
+                }
+                else if (existingKeys.Contains(model.AgencyCode))
+                {
+                    ModelState.AddModelError("AgencyCode", "This agency code already exists");
+                    return View(model);
+                }
+                else
+                {
+                    //ViewBag.Message = "Agency Code can't be empty";
+                    //TempData["error2"] = "Agency Code cannot be empty";
+                    return View(model);
+                }
             }
-            else if (existingKeys.Contains(model.AgencyCode))
+            catch
             {
-                ModelState.AddModelError("AgencyCode", "This agency code already exists");
-                return View(model);
-            }
-            else
-            {
-                //ViewBag.Message = "Agency Code can't be empty";
-                //TempData["error2"] = "Agency Code cannot be empty";
-                return View(model);
+                return RedirectToAction("ErrorPage");
             }
         }
 
@@ -303,5 +337,6 @@ namespace CSMARTofficerApp.Controllers
         {
             return View();
         }
+        
     }
 }
