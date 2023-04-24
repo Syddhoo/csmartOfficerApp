@@ -16,7 +16,9 @@
                             <label asp-for="OfficerKey"></label>
                             
                             <input type="text" asp-for="OfficerKey" class="form-control" placeholder="Enter the officer key" />
-                            <span class="text-danger">@TempData["error1"]</span>
+                            @*<span class="text-danger">@TempData["error1"]</span>*@
+                            <span asp-validation-for="OfficerKey" class="text-danger"></span>
+                            @*@Html.ValidationMessageFor(Officer => Officer.OfficerKey)*@
                         </div>
                         <div class="form-group">
                             <label asp-for="FirstName"></label>
@@ -32,6 +34,7 @@
                             <label asp-for="PhoneNumber"></label>
 
                             <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Enter the phone number" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="BadgeNumber"></label>
