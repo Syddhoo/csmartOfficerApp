@@ -70,7 +70,8 @@ namespace CSMARTofficerApp.Controllers
                 }
             }
 
-            return NoContent();
+            //return NoContent();
+            return Ok(officerAgency);
         }
 
         // POST: api/AgenciesWebApi

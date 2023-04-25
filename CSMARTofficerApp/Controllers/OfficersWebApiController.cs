@@ -70,7 +70,8 @@ namespace CSMARTofficerApp.Controllers
                 }
             }
 
-            return NoContent();
+            //return NoContent();
+            return Ok(officer);
         }
 
         // POST: api/OfficersWebApi
